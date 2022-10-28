@@ -33,8 +33,8 @@ public class FindContainerKeys28 extends FindContainerKeys {
 		do {
 			result = jedis.scan(cursor, params);
 			nodekeys.addAll(result.getResult());
-			cursor = result.getStringCursor();
-		}while(!result.getStringCursor().equals(SCAN_POINTER_START));
+			cursor = result.getCursor();
+		}while(!result.getCursor().equals(SCAN_POINTER_START));
 		
 		return nodekeys;
 	}

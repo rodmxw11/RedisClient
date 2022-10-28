@@ -27,11 +27,16 @@ public class AddServerDialog extends RedisClientDialog {
 	protected Text text_4;
 	protected Text text_5;
 	protected Text text_6;
+
+	protected Text text_7;
+
+	protected Button use_ssl_button;
+
 	/**
 	 * Create the dialog.
 	 * 
 	 * @param parent
-	 * @param style
+	 * @param image
 	 */
 	public AddServerDialog(Shell parent, Image image) {
 		super(parent, image);
@@ -75,13 +80,25 @@ public class AddServerDialog extends RedisClientDialog {
 		text_5.setText("6379");
 		text_5.selectAll();
 		
+		Label lblUsername = new Label(composite, SWT.NONE);
+		lblUsername.setText("User name"); // TODO: add i18n lookup for label
+		
+		text_7 = new Text(composite, SWT.BORDER);
+		text_7.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		text_7.selectAll();
+
 		Label lblPassword = new Label(composite, SWT.NONE);
 		lblPassword.setText(RedisClient.i18nFile.getText(I18nFile.PASSWORD));
-		
+
 		text_6 = new Text(composite, SWT.BORDER | SWT.PASSWORD);
 		text_6.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		text_6.selectAll();
-		
+
+		use_ssl_button = new Button(composite, SWT.CHECK);
+		use_ssl_button.setSelection(false);
+		use_ssl_button.setText("Use SSL");
+		use_ssl_button.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+
 		Composite composite_1 = new Composite(shell, SWT.NONE);
 		composite_1.setLayout(new FillLayout(SWT.HORIZONTAL));
 		composite_1.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
@@ -94,10 +111,12 @@ public class AddServerDialog extends RedisClientDialog {
 				String host = text_4.getText();
 				String port = text_5.getText();
 				String password= text_6.getText();
+				String username = text_7.getText();
+				boolean use_ssl = use_ssl_button.getSelection();
 				if(name.length() == 0 || host.length() == 0 || port.length() == 0)
 					MessageDialog.openError(shell, RedisClient.i18nFile.getText(I18nFile.ERROR),RedisClient.i18nFile.getText(I18nFile.INPUTSERVER));
 				else {
-					result = new Server(0, name, host, port, password);
+					result = new Server(0, name, host, port, password, use_ssl, username);
 					shell.dispose();
 				}
 					

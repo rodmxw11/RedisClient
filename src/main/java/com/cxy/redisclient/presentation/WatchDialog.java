@@ -5,7 +5,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 
-import sun.misc.BASE64Decoder;
+//import sun.misc.BASE64Decoder;
+import java.util.Base64;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -159,10 +160,10 @@ public class WatchDialog extends RedisClientDialog {
 	private void tranformImage(Combo imageType, Label label) {
 		int index = imageType.getSelectionIndex();
 		if (index == 0) {
-			BASE64Decoder decode = new BASE64Decoder();
+			Base64.Decoder decode = Base64.getDecoder();
 
 			try {
-				byte[] b = decode.decodeBuffer(value);
+				byte[] b = decode.decode(value);
 				ByteArrayInputStream bais = new ByteArrayInputStream(b);
 				Image img = new Image(shell.getDisplay(), bais);
 				label.setImage(img);
@@ -170,9 +171,9 @@ public class WatchDialog extends RedisClientDialog {
 			} catch (SWTException e) {
 				imageType.select(currentImageType);
 				throw new RuntimeException(RedisClient.i18nFile.getText(I18nFile.IMAGEEXCEPTION));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
 			}
 		}
 		shell.pack();

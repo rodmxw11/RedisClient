@@ -2,13 +2,15 @@ package com.cxy.redisclient.domain;
 
 
 public class Server {
-	public Server(int id, String name, String addr, String port, String password) {
+	public Server(int id, String name, String addr, String port, String password, boolean useSsl, String username) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.host = addr;
 		this.port = port;
 		this.password = password;
+		this.username = username;
+		this.useSsl = useSsl;
 	}
 	
 	private int id;
@@ -16,6 +18,9 @@ public class Server {
 	private String host;
 	private String port;
 	private String password;
+
+	private String username;
+	private boolean useSsl;
 		
 	public int getId() {
 		return id;
@@ -47,4 +52,13 @@ public class Server {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public boolean getUseSsl() { return useSsl; }
+	public void setUseSsl(boolean useSsl) {this.useSsl = useSsl; }
 }

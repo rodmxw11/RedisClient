@@ -35,7 +35,7 @@ public class PropertiesDialog extends RedisClientDialog {
 	/**
 	 * Create the dialog.
 	 * @param parent
-	 * @param style
+	 * @param image
 	 */
 	public PropertiesDialog(Shell parent, Image image, Server info, Map<String,  String[]> values) {
 		super(parent, image);
@@ -82,7 +82,16 @@ public class PropertiesDialog extends RedisClientDialog {
 		TableItem portItem = new TableItem(tableServer, SWT.NONE);
 		String[] portKey = new String[]{RedisClient.i18nFile.getText(I18nFile.PORT), info.getPort()};
 		portItem.setText(portKey);
-		
+
+		// new items
+		TableItem usernameItem = new TableItem(tableServer, SWT.NONE);
+		String[] usernameKey = new String[]{"User name", info.getUsername()};
+		usernameItem.setText(usernameKey);
+
+		TableItem useSslItem = new TableItem(tableServer, SWT.NONE);
+		String[] useSslKey = new String[]{"Use SSL", info.getUseSsl()?"true":"false"};
+		useSslItem.setText(useSslKey);
+
 		Set<Entry<String, String[]>> set = values.entrySet();
 		Iterator<Entry<String, String[]>> i = set.iterator();
 		

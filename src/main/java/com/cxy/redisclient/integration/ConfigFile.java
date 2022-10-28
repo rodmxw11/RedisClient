@@ -9,9 +9,11 @@ public class ConfigFile extends PropertyFile {
 	private final static String propertyFile = System.getProperty("user.home") + File.separatorChar +".RedisClient.properties";
 
 	public static final String PORT = "port";
+	public static final String USE_SSL = "use_ssl";
 	public static final String HOST = "host";
 	public static final String NAME = "name";
 	public static final String PASSWORD = "password";
+	public static final String USER_NAME = "username";
 	public static final String SERVER_MAXID = "server_maxid";
 
 	public static final String FAVORITE = "favorite";

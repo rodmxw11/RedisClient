@@ -27,9 +27,16 @@ public abstract class JedisCommand implements Comparable<JedisCommand>{
 
 	public void execute() {
 		server = service.listById(id);
-		this.jedis = new Jedis(server.getHost(), Integer.parseInt(server.getPort()), timeout);
-		if(server.getPassword() != null && server.getPassword().length() > 0)
-			jedis.auth(server.getPassword());
+		this.jedis = new Jedis(server.getHost(), Integer.parseInt(server.getPort()), timeout, server.getUseSsl());
+		String password = server.getPassword();
+		if(password != null && password.length() > 0) {
+			String username = server.getUsername();
+			if (username != null && username.length() > 0) {
+				jedis.auth(username, password);
+			} else {
+				jedis.auth(password);
+			}
+		}
 		
 		runCommand();
 		

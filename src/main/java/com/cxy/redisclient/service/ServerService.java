@@ -12,7 +12,7 @@ import com.cxy.redisclient.integration.server.QueryServerProperties;
 
 public class ServerService {
 
-	public int add(String name, String host, String port, String password) {
+	public int add(String name, String host, String port, String password, boolean useSsl, String username) {
 		try {
 			int id = Integer.parseInt(ConfigFile
 					.readMaxId(ConfigFile.SERVER_MAXID)) + 1;
@@ -21,6 +21,8 @@ public class ServerService {
 			ConfigFile.write(ConfigFile.HOST + id, host);
 			ConfigFile.write(ConfigFile.PORT + id, port);
 			ConfigFile.write(ConfigFile.PASSWORD + id, password);
+			ConfigFile.write(ConfigFile.USER_NAME + id, username);
+			ConfigFile.write(ConfigFile.USE_SSL + id, useSsl?"true":"false");
 
 			ConfigFile.write(ConfigFile.SERVER_MAXID, String.valueOf(id));
 
@@ -36,6 +38,8 @@ public class ServerService {
 			ConfigFile.delete(ConfigFile.HOST + id);
 			ConfigFile.delete(ConfigFile.PORT + id);
 			ConfigFile.delete(ConfigFile.PASSWORD + id);
+			ConfigFile.delete(ConfigFile.USER_NAME + id);
+			ConfigFile.delete(ConfigFile.USE_SSL + id);
 		} catch (IOException e) {
 			throw new RuntimeException(e.getMessage());
 		}
@@ -49,30 +53,40 @@ public class ServerService {
 		}
 	}
 
-	public void update(int id, String host, String port, String password) {
+	public void update(int id, String host, String port, String password, boolean useSsl, String username) {
 		try {
 			ConfigFile.write(ConfigFile.HOST + id, host);
 			ConfigFile.write(ConfigFile.PORT + id, port);
 			ConfigFile.write(ConfigFile.PASSWORD + id, password);
+			ConfigFile.write(ConfigFile.USER_NAME + id, username);
+			ConfigFile.write(ConfigFile.USE_SSL + id, useSsl?"true":"false");
 		} catch (IOException e) {
 			throw new RuntimeException(e.getMessage());
 		}
 	}
 
-	public void update(int id, String name, String host, String port, String password) {
+	public void update(int id, String name, String host, String port, String password, boolean useSsl, String username) {
 		update(id, name);
-		update(id, host, port, password);
+		update(id, host, port, password, useSsl, username);
 	}
 
 	public Server listById(int id) {
 		try {
 			Server server = null;
-			if (ConfigFile.read(ConfigFile.NAME + id) != null)
+			if (ConfigFile.read(ConfigFile.NAME + id) != null) {
+				boolean useSsl = false;
+				String useSslConfig = ConfigFile.read(ConfigFile.USE_SSL + id);
+				if ("true".equals(useSslConfig)) {
+					useSsl = true;
+				}
 				server = new Server(id, ConfigFile.read(ConfigFile.NAME + id),
 						ConfigFile.read(ConfigFile.HOST + id),
 						ConfigFile.read(ConfigFile.PORT + id),
-						ConfigFile.read(ConfigFile.PASSWORD + id));
-
+						ConfigFile.read(ConfigFile.PASSWORD + id),
+						useSsl,
+						ConfigFile.read(ConfigFile.USER_NAME + id)
+				);
+			}
 			return server;
 		} catch (IOException e) {
 			throw new RuntimeException(e.getMessage());

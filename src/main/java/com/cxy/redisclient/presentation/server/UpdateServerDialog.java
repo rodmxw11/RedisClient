@@ -24,10 +24,15 @@ public class UpdateServerDialog extends AddServerDialog {
 		text_4.selectAll();
 		text_5.setText(server.getPort());
 		text_5.selectAll();
+		if(server.getUsername() != null){
+			text_7.setText(server.getUsername());
+			text_7.selectAll();
+		}
 		if(server.getPassword() != null){
 			text_6.setText(server.getPassword());
 			text_6.selectAll();
 		}
+		use_ssl_button.setSelection("true".equals(server.getUseSsl()));
 	}
 
 	@Override

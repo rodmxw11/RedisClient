@@ -1,6 +1,7 @@
 package com.cxy.redisclient.integration.list;
 
-import redis.clients.jedis.BinaryClient.LIST_POSITION;
+//import redis.clients.jedis.BinaryClient.LIST_POSITION;
+import redis.clients.jedis.ListPosition;
 
 import com.cxy.redisclient.domain.RedisVersion;
 import com.cxy.redisclient.integration.JedisCommand;
@@ -24,7 +25,7 @@ public class InsertList extends JedisCommand {
 	@Override
 	protected void command() {
 		jedis.select(db);
-		jedis.linsert(key, beforeAfter?LIST_POSITION.BEFORE:LIST_POSITION.AFTER, pivot, value);
+		jedis.linsert(key, beforeAfter?ListPosition.BEFORE:ListPosition.AFTER, pivot, value);
 	}
 
 	@Override
